@@ -84,10 +84,8 @@ alter table public.playlist_items enable row level security;
 insert into public.genres (id, name, slug, description, accent)
 values
   ('genre_technology', 'Technology', 'technology', 'Engineering, startups, AI, and software culture.', '#7dd3fc'),
-  ('genre_business', 'Business', 'business', 'Founder lessons, strategy, markets, and management.', '#fbbf24'),
   ('genre_fiction', 'Fiction', 'fiction', 'Novels, short stories, and immersive audio drama.', '#fb7185'),
   ('genre_education', 'Education', 'education', 'Structured lessons, explainers, and learning series.', '#34d399'),
   ('genre_history', 'History', 'history', 'People, places, and events that shaped the world.', '#a78bfa'),
-  ('genre_motivation', 'Motivation', 'motivation', 'Focus, discipline, and personal growth.', '#f97316'),
-  ('genre_podcasts', 'Podcasts', 'podcasts', 'Interviews, shows, conversations, and serialized episodes.', '#22c55e')
+  ('genre_motivation', 'Motivation', 'motivation', 'Focus, discipline, and personal growth.', '#f97316')
 on conflict (slug) do nothing;

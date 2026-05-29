@@ -206,11 +206,6 @@ export const genreTranslations: Record<string, Record<Language, { name: string; 
     ru: { name: 'Технологии', description: 'Программирование, стартапы и современные технологии.' },
     en: { name: 'Technology', description: 'Programming, startups, and modern technology.' }
   },
-  business: {
-    uz: { name: 'Biznes', description: 'Strategiya, bozor va boshqaruv haqida audiolar.' },
-    ru: { name: 'Бизнес', description: 'Стратегия, рынок и управление.' },
-    en: { name: 'Business', description: 'Strategy, markets, and management.' }
-  },
   fiction: {
     uz: { name: 'Badiiy adabiyot', description: 'Hikoya, roman va ta’sirli qissalar.' },
     ru: { name: 'Художественная литература', description: 'Рассказы, романы и сильные повести.' },
@@ -230,11 +225,6 @@ export const genreTranslations: Record<string, Record<Language, { name: string; 
     uz: { name: 'Motivatsiya', description: 'Shaxsiy rivojlanish va ruhlantiruvchi audiolar.' },
     ru: { name: 'Мотивация', description: 'Личное развитие и вдохновляющие аудио.' },
     en: { name: 'Motivation', description: 'Personal growth and inspiring audio.' }
-  },
-  podcasts: {
-    uz: { name: 'Suhbatlar', description: 'Intervyu, suhbat va podkast epizodlari.' },
-    ru: { name: 'Беседы', description: 'Интервью, разговоры и эпизоды подкастов.' },
-    en: { name: 'Conversations', description: 'Interviews, talks, and podcast episodes.' }
   }
 };
 
