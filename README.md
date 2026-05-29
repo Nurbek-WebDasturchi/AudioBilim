@@ -165,7 +165,7 @@ npm --workspace frontend run preview
 1. Push the repository to GitHub.
 2. In Render, create a new Web Service.
 3. Set root directory to `backend`.
-4. Build command: `npm install && npm run build`.
+4. Build command: `npm install --include=dev && npm run build`.
 5. Start command: `npm start`.
 6. Add all backend environment variables.
 7. Set `PUBLIC_API_URL` to the Render service URL.
