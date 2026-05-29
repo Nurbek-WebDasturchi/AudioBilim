@@ -10,6 +10,12 @@ import { Button } from '../ui/Button';
 const navClass = ({ isActive }: { isActive: boolean }) =>
   `rounded-lg px-3 py-2 text-sm font-medium transition ${isActive ? 'bg-white text-ink' : 'text-white/65 hover:bg-white/8 hover:text-white'}`;
 
+const languages: Array<{ value: Language; label: string }> = [
+  { value: 'uz', label: 'UZ' },
+  { value: 'ru', label: 'RU' },
+  { value: 'en', label: 'EN' }
+];
+
 export function AppShell() {
   const { user, logout } = useAuthStore();
   const { language, setLanguage, theme, toggleTheme } = useSettingsStore();
@@ -55,19 +61,23 @@ export function AppShell() {
             >
               {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
             </button>
-            <label className="focus-within:ring-brand hidden items-center gap-2 rounded-lg border border-line bg-white/5 px-3 py-2 text-sm text-white/75 focus-within:ring-2 md:flex">
+            <div className="hidden items-center gap-1 rounded-lg border border-line bg-white/5 p-1 text-sm text-white/75 md:flex" aria-label="Language">
               <Languages className="h-4 w-4" />
-              <select
-                value={language}
-                onChange={(event) => setLanguage(event.target.value as Language)}
-                className="bg-transparent text-sm font-semibold text-white outline-none"
-                aria-label="Language"
-              >
-                <option value="uz">UZ</option>
-                <option value="ru">RU</option>
-                <option value="en">EN</option>
-              </select>
-            </label>
+              {languages.map((item) => (
+                <button
+                  key={item.value}
+                  type="button"
+                  onClick={() => setLanguage(item.value)}
+                  className={`focus-ring h-8 rounded-md px-2 text-xs font-bold transition ${
+                    language === item.value
+                      ? 'bg-white text-ink shadow-sm'
+                      : 'text-white/65 hover:bg-white/8 hover:text-white'
+                  }`}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
             <Link to="/search" className="focus-ring grid h-10 w-10 place-items-center rounded-lg border border-line bg-white/5 md:hidden" aria-label="Search">
               <Search className="h-4 w-4" />
             </Link>

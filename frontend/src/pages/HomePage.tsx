@@ -19,6 +19,7 @@ export default function HomePage() {
   const byGenre = (slug: string) => (data?.recent ?? []).filter((item) => item.genres?.slug === slug);
   const fiction = byGenre('fiction');
   const history = byGenre('history');
+  const education = byGenre('education');
   const motivation = byGenre('motivation');
 
   if (isLoading) {
@@ -96,6 +97,7 @@ export default function HomePage() {
 
       <AudioShelf title={t('fictionShelf')} eyebrow={t('fictionEyebrow')} items={fiction} />
       <AudioShelf title={t('historyShelf')} eyebrow={t('historyEyebrow')} items={history} />
+      <AudioShelf title={t('educationShelf')} eyebrow={t('educationEyebrow')} items={education} />
       <AudioShelf title={t('motivationShelf')} eyebrow={t('motivationEyebrow')} items={motivation} />
       <AudioShelf title={t('recentShelf')} eyebrow={t('recentEyebrow')} items={data?.recent ?? []} />
     </div>

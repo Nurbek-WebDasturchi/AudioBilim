@@ -40,6 +40,18 @@ const localMetadata: Record<string, { title: string; author: string; genreSlug: 
     author: "O'tkir Hoshimov",
     genreSlug: 'history',
     coverFileName: 'Tushda kechgan umrlar.jpg'
+  },
+  'QIYMAT-Siz nega charchaysiz.mp3': {
+    title: 'Siz nega charchaysiz',
+    author: 'Qiymat',
+    genreSlug: 'education',
+    coverFileName: 'Qiymat-Siz nega charchaysiz.png'
+  },
+  'Stiv Jobs - Motivatsiya.mp3': {
+    title: 'Stiv Jobs - Motivatsiya',
+    author: 'Stiv Jobs',
+    genreSlug: 'motivation',
+    coverFileName: 'Stiv Jobs - Motivatsiya.png'
   }
 };
 
