@@ -7,5 +7,3 @@ build
 coverage
 .DS_Store
 *.log
-backend/audiobooks/*
-!backend/audiobooks/.gitkeep

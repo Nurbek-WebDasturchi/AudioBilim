@@ -1,9 +1,17 @@
-import path from 'node:path';
 import { nanoid } from 'nanoid';
 import { supabase } from '../config/supabase.js';
 import { env } from '../config/env.js';
 import { scanAudiobookFolder } from '../utils/audioScanner.js';
 import { HttpError } from '../utils/httpError.js';
+
+const encodeUrlSegment = (value: string) => encodeURIComponent(value).replace(/'/g, '%27');
+
+const getLocalAudioUrl = (fileName: string) => `${env.PUBLIC_API_URL}/audiobooks/${encodeUrlSegment(fileName)}`;
+
+const getLocalCoverUrl = (coverFileName: string | null) =>
+  coverFileName
+    ? `${env.PUBLIC_API_URL}/audiobooks/titleImg/${encodeUrlSegment(coverFileName)}`
+    : `${env.PUBLIC_API_URL}/covers/default-cover.svg`;
 
 export const audioService = {
   async list(options: {
@@ -88,31 +96,52 @@ export const audioService = {
   async syncLocalAudiobooks() {
     const files = await scanAudiobookFolder();
     const inserted = [];
+    const updated = [];
+
+    const { data: fictionGenre } = await supabase
+      .from('genres')
+      .select('id')
+      .eq('slug', 'fiction')
+      .maybeSingle();
 
     for (const file of files) {
+      const payload = {
+        type: 'audiobook' as const,
+        title: file.title,
+        author: file.author,
+        description: `${file.title} audiokitobi. Mahalliy backend papkasidan avtomatik qo'shildi.`,
+        cover_url: getLocalCoverUrl(file.coverFileName),
+        audio_url: getLocalAudioUrl(file.fileName),
+        local_file_name: file.fileName,
+        genre_id: fictionGenre?.id ?? null,
+        duration_seconds: 0,
+        is_featured: false
+      };
+
       const { data: existing } = await supabase
         .from('audio_items')
         .select('id')
         .eq('local_file_name', file.fileName)
         .maybeSingle();
 
-      if (existing) continue;
+      if (existing) {
+        const { data, error } = await supabase
+          .from('audio_items')
+          .update(payload)
+          .eq('id', existing.id)
+          .select()
+          .single();
 
-      const title = path.basename(file.fileName, path.extname(file.fileName)).replace(/[-_]+/g, ' ');
+        if (error) throw new HttpError(500, 'Unable to update local audiobook', error.message);
+        updated.push(data);
+        continue;
+      }
+
       const { data, error } = await supabase
         .from('audio_items')
         .insert({
           id: nanoid(),
-          type: 'audiobook',
-          title,
-          author: 'Unknown author',
-          description: 'Imported automatically from the local audiobook folder.',
-          cover_url: `${env.PUBLIC_API_URL}/covers/default-cover.svg`,
-          audio_url: `${env.PUBLIC_API_URL}/audiobooks/${encodeURIComponent(file.fileName)}`,
-          local_file_name: file.fileName,
-          genre_id: null,
-          duration_seconds: 0,
-          is_featured: false
+          ...payload
         })
         .select()
         .single();
@@ -121,6 +150,6 @@ export const audioService = {
       inserted.push(data);
     }
 
-    return { scanned: files.length, inserted: inserted.length };
+    return { scanned: files.length, inserted: inserted.length, updated: updated.length };
   }
 };
