@@ -48,7 +48,7 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <Suspense fallback={<div className="grid min-h-screen place-items-center bg-ink text-white">Loading studio...</div>}>
+      <Suspense fallback={<div className="grid min-h-screen place-items-center bg-ink text-white">Yuklanmoqda...</div>}>
         <RouterProvider router={router} />
       </Suspense>
       <Toaster

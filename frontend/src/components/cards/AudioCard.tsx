@@ -3,10 +3,14 @@ import { Play, Clock3 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import type { AudioItem } from '../../types/audio';
 import { formatDuration } from '../../lib/format';
+import { getGenreText } from '../../lib/i18n';
 import { usePlayerStore } from '../../store/playerStore';
+import { useSettingsStore } from '../../store/settingsStore';
 
 export function AudioCard({ item, compact = false }: { item: AudioItem; compact?: boolean }) {
   const play = usePlayerStore((state) => state.play);
+  const language = useSettingsStore((state) => state.language);
+  const genre = getGenreText(item.genres?.slug, language, item.genres?.name);
 
   return (
     <motion.article
@@ -32,7 +36,7 @@ export function AudioCard({ item, compact = false }: { item: AudioItem; compact?
       </Link>
       <div className="p-4">
         <div className="mb-2 flex items-center justify-between gap-3 text-xs text-white/50">
-          <span>{item.genres?.name ?? item.type}</span>
+          <span>{genre.name || item.type}</span>
           <span className="inline-flex items-center gap-1">
             <Clock3 className="h-3.5 w-3.5" />
             {formatDuration(item.duration_seconds)}

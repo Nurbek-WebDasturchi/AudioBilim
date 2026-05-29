@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Pause, Play, SkipBack, SkipForward, Volume2, X } from 'lucide-react';
 import { usePlayerStore } from '../../store/playerStore';
 import { formatDuration } from '../../lib/format';
+import { useSettingsStore } from '../../store/settingsStore';
+import { getTranslator } from '../../lib/i18n';
 
 export function MiniPlayer() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -11,6 +13,8 @@ export function MiniPlayer() {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(0.85);
+  const language = useSettingsStore((state) => state.language);
+  const t = getTranslator(language);
 
   useEffect(() => {
     if (!audioRef.current || !current) return;
@@ -52,7 +56,7 @@ export function MiniPlayer() {
                 <button className="focus-ring grid h-9 w-9 place-items-center rounded-full text-white/70 hover:bg-white/8 hover:text-white" onClick={previous} aria-label="Previous">
                   <SkipBack className="h-4 w-4" />
                 </button>
-                <button className="focus-ring grid h-11 w-11 place-items-center rounded-full bg-white text-ink hover:bg-brand" onClick={toggle} aria-label={isPlaying ? 'Pause' : 'Play'}>
+                <button className="focus-ring grid h-11 w-11 place-items-center rounded-full bg-white text-ink hover:bg-brand" onClick={toggle} aria-label={isPlaying ? 'Pause' : t('playNow')}>
                   {isPlaying ? <Pause className="h-5 w-5 fill-current" /> : <Play className="h-5 w-5 fill-current" />}
                 </button>
                 <button className="focus-ring grid h-9 w-9 place-items-center rounded-full text-white/70 hover:bg-white/8 hover:text-white" onClick={next} aria-label="Next">

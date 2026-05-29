@@ -10,30 +10,35 @@ const titleImageFolder = path.join(audiobookFolder, 'titleImg');
 const supportedExtensions = new Set(['.mp3', '.wav']);
 const supportedImageExtensions = new Set(['.jpg', '.jpeg', '.png', '.webp']);
 
-const localMetadata: Record<string, { title: string; author: string; coverFileName?: string }> = {
+const localMetadata: Record<string, { title: string; author: string; genreSlug: string; coverFileName?: string }> = {
   'Abdulla Qahhor.mp3': {
     title: 'Binafsha shulasi',
     author: 'Abdulla Qahhor',
+    genreSlug: 'fiction',
     coverFileName: 'Binafsha shulasi.jpg'
   },
   'Alkimyogar.mp3': {
     title: 'Alkimyogar',
     author: 'Paulo Coelho',
+    genreSlug: 'motivation',
     coverFileName: 'Alkimyogar.jpg'
   },
   'Hadiche-Bahor qaytmaydi.mp3': {
     title: 'Bahor qaytmaydi',
     author: "O'tkir Hoshimov",
+    genreSlug: 'fiction',
     coverFileName: 'Bahor qaytmaydi.jpg'
   },
   'Isfandiyor-Qasoskor.mp3': {
     title: 'Qasoskorlar',
     author: 'Isfandiyor',
+    genreSlug: 'history',
     coverFileName: 'Isfandiyor-Qasoskorlar.jpg'
   },
   "O'tkir Hoshimov.mp3": {
     title: 'Tushda kechgan umrlar',
     author: "O'tkir Hoshimov",
+    genreSlug: 'history',
     coverFileName: 'Tushda kechgan umrlar.jpg'
   }
 };
@@ -85,6 +90,7 @@ export async function scanAudiobookFolder() {
         fileName,
         title,
         author,
+        genreSlug: metadata?.genreSlug ?? 'fiction',
         coverFileName,
         absolutePath: path.join(audiobookFolder, fileName)
       };

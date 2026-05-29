@@ -1,8 +1,13 @@
 import type { AudioItem } from '../../types/audio';
+import { useSettingsStore } from '../../store/settingsStore';
+import { getTranslator } from '../../lib/i18n';
 import { AudioCard } from '../cards/AudioCard';
 import { EmptyState } from '../ui/EmptyState';
 
 export function AudioShelf({ title, eyebrow, items }: { title: string; eyebrow?: string; items: AudioItem[] }) {
+  const language = useSettingsStore((state) => state.language);
+  const t = getTranslator(language);
+
   return (
     <section className="py-8">
       <div className="mb-5 flex items-end justify-between gap-4">
@@ -18,7 +23,7 @@ export function AudioShelf({ title, eyebrow, items }: { title: string; eyebrow?:
           ))}
         </div>
       ) : (
-        <EmptyState title="No audio yet" description="Add audio from the admin dashboard or drop MP3/WAV files into backend/audiobooks." />
+        <EmptyState title={t('emptyTitle')} description={t('emptyDescription')} />
       )}
     </section>
   );

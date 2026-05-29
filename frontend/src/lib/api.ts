@@ -59,7 +59,7 @@ export const libraryApi = {
     return data.item;
   },
   async syncLocal() {
-    const { data } = await api.post<{ scanned: number; inserted: number }>('/audio/sync-local');
+    const { data } = await api.post<{ scanned: number; inserted: number; updated: number }>('/audio/sync-local');
     return data;
   }
 };

@@ -98,11 +98,11 @@ export const audioService = {
     const inserted = [];
     const updated = [];
 
-    const { data: fictionGenre } = await supabase
+    const { data: genres } = await supabase
       .from('genres')
-      .select('id')
-      .eq('slug', 'fiction')
-      .maybeSingle();
+      .select('id, slug');
+
+    const genreIdBySlug = new Map((genres ?? []).map((genre) => [genre.slug, genre.id]));
 
     for (const file of files) {
       const payload = {
@@ -113,7 +113,7 @@ export const audioService = {
         cover_url: getLocalCoverUrl(file.coverFileName),
         audio_url: getLocalAudioUrl(file.fileName),
         local_file_name: file.fileName,
-        genre_id: fictionGenre?.id ?? null,
+        genre_id: genreIdBySlug.get(file.genreSlug) ?? null,
         duration_seconds: 0,
         is_featured: false
       };
